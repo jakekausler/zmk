@@ -5,7 +5,7 @@
 */
 
 #include <zephyr/device.h>
-#include <init.h>
+#include <zephyr/init.h>
 
 #include <logging/log.h>
 

@@ -14,7 +14,7 @@
 
 #include <kernel.h>
 #include <device.h>
-#include <init.h>
+#include <zephyr/init.h>
 #include <sys/byteorder.h>
 #include <drivers/gpio.h>
 #include <drivers/i2c.h>

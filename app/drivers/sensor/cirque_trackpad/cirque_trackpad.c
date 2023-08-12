@@ -1,7 +1,7 @@
 #define DT_DRV_COMPAT cirque_pinnacle
 
 #include <drivers/spi.h>
-#include <init.h>
+#include <zephyr/init.h>
 #include <drivers/sensor.h>
 #include <logging/log.h>
 
