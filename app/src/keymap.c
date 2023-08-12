@@ -173,7 +173,7 @@ static inline int set_layer_state(uint8_t layer, bool state, bool momentary) {
     zmk_keymap_layers_state_t old_state = _zmk_keymap_layer_state;
     WRITE_BIT(_zmk_keymap_layer_state, layer, state);
     // Don't send state changes unless there was an actual change
-    if (flag_event && (old_state != _zmk_keymap_layer_state)) {
+    if (momentary && (old_state != _zmk_keymap_layer_state)) {
         LOG_DBG("layer_changed: layer %d state %d", layer, state);
         WRITE_BIT(_zmk_keymap_layer_momentary, layer, momentary);
         ZMK_EVENT_RAISE(create_layer_state_changed(layer, state));
