@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 #include <zephyr/types.h>
 #include <stddef.h>
 #include <zephyr/sys/util.h>
