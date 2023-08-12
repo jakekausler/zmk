@@ -68,6 +68,10 @@ K_TIMER_DEFINE(display_timer, display_timer_cb, NULL);
 void unblank_display_cb(struct k_work *work) {
     display_blanking_off(display);
     k_timer_start(&display_timer, K_MSEC(TICK_MS), K_MSEC(TICK_MS));
+#if CONFIG_ZMK_DISPLAY_FULL_REFRESH_PERIOD > 0
+    k_timer_start(&full_refresh_timer, K_SECONDS(CONFIG_ZMK_DISPLAY_FULL_REFRESH_PERIOD),
+                  K_SECONDS(CONFIG_ZMK_DISPLAY_FULL_REFRESH_PERIOD));
+#endif
 }
 
 #if IS_ENABLED(CONFIG_ZMK_DISPLAY_BLANK_ON_IDLE)
@@ -75,6 +79,9 @@ void unblank_display_cb(struct k_work *work) {
 void blank_display_cb(struct k_work *work) {
     k_timer_stop(&display_timer);
     display_blanking_on(display);
+#if CONFIG_ZMK_DISPLAY_FULL_REFRESH_PERIOD > 0
+    k_timer_stop(&full_refresh_timer);
+#endif
 }
 K_WORK_DEFINE(blank_display_work, blank_display_cb);
 K_WORK_DEFINE(unblank_display_work, unblank_display_cb);

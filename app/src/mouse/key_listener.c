@@ -25,7 +25,6 @@ static struct mouse_config move_config = (struct mouse_config){0};
 static struct mouse_config scroll_config = (struct mouse_config){0};
 static int64_t start_time = 0;
 
-
 #if IS_ENABLED(CONFIG_ZMK_USB_LOGGING)
 // in us
 static int64_t last_update_time = 0;
@@ -59,8 +58,8 @@ void mouse_clear_cb(struct k_timer *dummy) {
 
 static void mouse_tick_timer_handler(struct k_work *work) {
 #if IS_ENABLED(CONFIG_ZMK_USB_LOGGING)
-  current_update_time = k_ticks_to_us_floor64(k_uptime_ticks());
-  idle_interval = current_update_time - time_buffer;
+    current_update_time = k_ticks_to_us_floor64(k_uptime_ticks());
+    idle_interval = current_update_time - time_buffer;
 #endif
 
     zmk_hid_mouse_movement_set(0, 0);
@@ -79,8 +78,8 @@ static void mouse_tick_timer_handler(struct k_work *work) {
 #if IS_ENABLED(CONFIG_ZMK_USB_LOGGING)
     time_buffer = k_ticks_to_us_floor64(k_uptime_ticks());
     update_duration = time_buffer - current_update_time;
-    LOG_DBG("Interrupt duration: %lld ; update: %lld ; report: %lld ; idle: %lld", \
-            (current_update_time - last_update_time), update_duration, \
+    LOG_DBG("Interrupt duration: %lld ; update: %lld ; report: %lld ; idle: %lld",
+            (current_update_time - last_update_time), update_duration,
             (time_buffer - send_report_time), idle_interval);
 
     last_update_time = current_update_time;

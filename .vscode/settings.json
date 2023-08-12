@@ -4,7 +4,8 @@
     "*.keymap": "dts",
     "usb_hid.h": "c",
     "sliders.h": "c",
-    "util.h": "c"
+    "util.h": "c",
+    "log.h": "c"
   },
   "python.formatting.provider": "black",
   "[c]": {
