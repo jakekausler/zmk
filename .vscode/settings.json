@@ -3,7 +3,8 @@
     "*.overlay": "dts",
     "*.keymap": "dts",
     "usb_hid.h": "c",
-    "sliders.h": "c"
+    "sliders.h": "c",
+    "util.h": "c"
   },
   "python.formatting.provider": "black",
   "[c]": {

@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <zephyr/drivers/sensor.h>
+#include <drivers/sensor.h>
 #include <zephyr/types.h>
 #include <stddef.h>
 #include <zephyr/sys/util.h>
@@ -42,7 +42,11 @@ typedef int (*behavior_pd_keymap_binding_callback_t)(struct zmk_behavior_binding
                                                      int16_t dx, int16_t dy, int dt,
                                                      int64_t timestamp);
 
-enum behavior_locality { BEHAVIOR_LOCALITY_EVENT_SOURCE, BEHAVIOR_LOCALITY_GLOBAL };
+enum behavior_locality {
+    BEHAVIOR_LOCALITY_CENTRAL,
+    BEHAVIOR_LOCALITY_EVENT_SOURCE,
+    BEHAVIOR_LOCALITY_GLOBAL
+};
 
 __subsystem struct behavior_driver_api {
     enum behavior_locality locality;
