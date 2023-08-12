@@ -5,7 +5,7 @@
 *
 */
 
-#include <kernel.h>
+#include <zephyr/kernel.h>
 #include <bluetooth/services/bas.h>
 
 #include <zephyr/logging/log.h>

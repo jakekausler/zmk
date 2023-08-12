@@ -8,7 +8,7 @@
 
 #define USE_POLLING IS_ENABLED(CONFIG_ZMK_KSCAN_CAP1203_POLL)
 
-#include <kernel.h>
+#include <zephyr/kernel.h>
 #include <drivers/i2c.h>
 #include <zephyr/drivers/gpio.h>
 

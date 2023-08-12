@@ -12,7 +12,7 @@
 
 #include <errno.h>
 
-#include <kernel.h>
+#include <zephyr/kernel.h>
 #include <zephyr/device.h>
 #include <zephyr/init.h>
 #include <zephyr/sys/byteorder.h>
