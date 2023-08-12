@@ -14,7 +14,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/hid.h>
 #include <zmk/mouse.h>
 
-#include <sys/util.h> // CLAMP
+#include <zephyr/sys/util.h> // CLAMP
 
 #if !defined(CONFIG_ZMK_SPLIT) || defined(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
 #if CONFIG_MINIMAL_LIBC

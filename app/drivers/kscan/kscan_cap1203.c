@@ -10,7 +10,7 @@
 
 #include <kernel.h>
 #include <drivers/i2c.h>
-#include <drivers/gpio.h>
+#include <zephyr/drivers/gpio.h>
 
 #include <logging/log.h>
 

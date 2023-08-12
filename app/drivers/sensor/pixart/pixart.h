@@ -7,9 +7,9 @@
  * @brief Common header file for all optical motion sensor by PIXART
  */
 
-#include <device.h>
+#include <zephyr/device.h>
 #include <drivers/spi.h>
-#include <drivers/gpio.h>
+#include <zephyr/drivers/gpio.h>
 #include <drivers/sensor.h>
 
 #ifdef __cplusplus

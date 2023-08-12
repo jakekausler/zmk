@@ -8,8 +8,8 @@
 
 #include <drivers/sensor.h>
 #include <zephyr/types.h>
-#include <drivers/gpio.h>
-#include <sys/util.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/sys/util.h>
 #include <drivers/spi.h>
 
 /* wr/rd mask */

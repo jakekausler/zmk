@@ -11,7 +11,7 @@
 #define TOINT16(val, bits) (((struct {int16_t value: bits;}){val}).value)
 
 #include <kernel.h>
-#include <sys/byteorder.h>
+#include <zephyr/sys/byteorder.h>
 #include "pmw3610.h"
 
 #include <logging/log.h>

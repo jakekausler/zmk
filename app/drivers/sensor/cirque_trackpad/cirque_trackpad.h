@@ -1,6 +1,6 @@
 #pragma once
 
-#include <device.h>
+#include <zephyr/device.h>
 
 #define PINNACLE_READ       0xA0
 #define PINNACLE_WRITE      0x80

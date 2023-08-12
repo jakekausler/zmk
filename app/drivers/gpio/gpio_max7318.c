@@ -13,10 +13,10 @@
 #include <errno.h>
 
 #include <kernel.h>
-#include <device.h>
+#include <zephyr/device.h>
 #include <zephyr/init.h>
-#include <sys/byteorder.h>
-#include <drivers/gpio.h>
+#include <zephyr/sys/byteorder.h>
+#include <zephyr/drivers/gpio.h>
 #include <drivers/i2c.h>
 #include <drivers/ext_power.h>
 

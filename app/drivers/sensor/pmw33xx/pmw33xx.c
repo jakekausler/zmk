@@ -7,13 +7,13 @@
 
 #include <drivers/spi.h>
 #include <errno.h>
-#include <device.h>
-#include <drivers/gpio.h>
-#include <sys/util.h>
-#include <sys/byteorder.h>
+#include <zephyr/device.h>
+#include <zephyr/drivers/gpio.h>
+#include <zephyr/sys/util.h>
+#include <zephyr/sys/byteorder.h>
 #include <kernel.h>
 #include <drivers/sensor.h>
-#include <sys/__assert.h>
+#include <zephyr/sys/__assert.h>
 #include <logging/log.h>
 #ifdef CONFIG_PMW33XX_3389
 #include <pmw3389_srom.h>

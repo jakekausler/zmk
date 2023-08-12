@@ -6,7 +6,7 @@
 
 #define DT_DRV_COMPAT zmk_behavior_point_device_incremental
 
-#include <device.h>
+#include <zephyr/device.h>
 #include <drivers/behavior.h>
 #include <logging/log.h>
 

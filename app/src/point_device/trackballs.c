@@ -14,7 +14,7 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/event_manager.h>
 #include <zmk/events/pd_raw_event.h>
 #include <zmk/events/endpoint_selection_changed.h>
-#include <sys/atomic.h>
+#include <zephyr/sys/atomic.h>
 
 #if ZMK_KEYMAP_HAS_TRACKBALLS
 

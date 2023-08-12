@@ -6,12 +6,12 @@
 
 #define DT_DRV_COMPAT zmk_battery_max17048
 
-#include <device.h>
+#include <zephyr/device.h>
 #include <drivers/i2c.h>
 #include <kernel.h>
-#include <sys/util.h>
+#include <zephyr/sys/util.h>
 #include <logging/log.h>
-#include <sys/byteorder.h>
+#include <zephyr/sys/byteorder.h>
 #include <drivers/sensor.h>
 
 LOG_MODULE_REGISTER(max17048, CONFIG_BATTERY_LOG_LEVEL);
