@@ -10,7 +10,7 @@
 #include <zephyr/types.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/sys/util.h>
-#include <drivers/spi.h>
+#include <zephyr/drivers/spi.h>
 
 /* wr/rd mask */
 #define PMW33XX_WR_MASK 0x80

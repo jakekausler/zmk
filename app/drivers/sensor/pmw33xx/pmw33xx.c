@@ -5,7 +5,7 @@
  */
 #define DT_DRV_COMPAT pixart_pmw33xx
 
-#include <drivers/spi.h>
+#include <zephyr/drivers/spi.h>
 #include <errno.h>
 #include <zephyr/device.h>
 #include <zephyr/drivers/gpio.h>
