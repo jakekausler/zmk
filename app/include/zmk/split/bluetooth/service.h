@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 
 #define ZMK_SPLIT_RUN_BEHAVIOR_DEV_LEN 9
 

@@ -12,7 +12,7 @@
 #include <zephyr/sys/util.h>
 #include <zephyr/sys/byteorder.h>
 #include <kernel.h>
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 #include <zephyr/sys/__assert.h>
 #include <zephyr/logging/log.h>
 #ifdef CONFIG_PMW33XX_3389

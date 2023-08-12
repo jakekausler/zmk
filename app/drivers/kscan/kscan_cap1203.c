@@ -19,7 +19,7 @@
 #include <zmk/keymap.h>
 #include <zmk/mouse.h>
 #include <dt-bindings/zmk/mouse.h>
-#include <drivers/kscan.h>
+#include <zephyr/drivers/kscan.h>
 
 #if defined(CONFIG_CAP1203_MIX_MODE) || defined(CONFIG_CAP1203_SLIDER_MODE)
 #include <drivers/slider.h>

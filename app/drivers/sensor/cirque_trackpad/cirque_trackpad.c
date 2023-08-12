@@ -2,7 +2,7 @@
 
 #include <drivers/spi.h>
 #include <zephyr/init.h>
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 #include <zephyr/logging/log.h>
 
 #include "cirque_trackpad.h"

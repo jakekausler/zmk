@@ -10,7 +10,7 @@
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/sys/util.h>
 #include <kernel.h>
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 
 #include "pmw33xx.h"
 

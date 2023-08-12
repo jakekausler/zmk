@@ -10,7 +10,7 @@
 #include <drivers/behavior.h>
 #include <zephyr/logging/log.h>
 
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 #include <zmk/event_manager.h>
 #include <zmk/events/keycode_state_changed.h>
 

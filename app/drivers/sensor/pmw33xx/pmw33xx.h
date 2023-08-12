@@ -6,7 +6,7 @@
 #ifndef ZEPHYR_DRIVERS_SENSOR_PIXART_PMW33XX_H_
 #define ZEPHYR_DRIVERS_SENSOR_PIXART_PMW33XX_H_
 
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 #include <zephyr/types.h>
 #include <zephyr/drivers/gpio.h>
 #include <zephyr/sys/util.h>

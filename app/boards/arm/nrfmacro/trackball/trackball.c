@@ -1,6 +1,6 @@
 #define DT_DRV_COMPAT pixart_pmw33xx
 
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 #include <zephyr/logging/log.h>
 
 #include <zmk/hid.h>

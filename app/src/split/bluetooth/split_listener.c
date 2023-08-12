@@ -6,7 +6,7 @@
 
 #include <zephyr/device.h>
 #include <zephyr/logging/log.h>
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 
 #include <zmk/split/bluetooth/service.h>
 

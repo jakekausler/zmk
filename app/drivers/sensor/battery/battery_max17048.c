@@ -12,7 +12,7 @@
 #include <zephyr/sys/util.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/sys/byteorder.h>
-#include <drivers/sensor.h>
+#include <zephyr/drivers/sensor.h>
 
 LOG_MODULE_REGISTER(max17048, CONFIG_BATTERY_LOG_LEVEL);
 
