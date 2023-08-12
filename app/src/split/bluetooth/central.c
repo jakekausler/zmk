@@ -253,9 +253,7 @@ static uint8_t split_central_sensor_notify_func(struct bt_conn *conn,
         .channel_data_size = 1,
         .channel_data = {(struct zmk_sensor_channel_data){.value = sensor_event->value,
                                                           .channel = item->trigger.chan}}
-                            .value = {.val1 = (sensor_event->value).val1,
-                                      .val2 = (sensor_event->value).val2},
-        .timestamp = k_uptime_get()};
+                            .timestamp = k_uptime_get()};
 
     k_msgq_put(&peripheral_sensor_event_msgq, &ev, K_NO_WAIT);
     k_work_submit(&peripheral_sensor_event_work);
