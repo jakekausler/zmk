@@ -24,6 +24,23 @@ LOG_MODULE_REGISTER(il0323, CONFIG_DISPLAY_LOG_LEVEL);
  *
  */
 
+#define IL0323_SPI_FREQ DT_INST_PROP(0, spi_max_frequency)
+#define IL0323_BUS_NAME DT_INST_BUS_LABEL(0)
+#define IL0323_DC_PIN DT_INST_GPIO_PIN(0, dc_gpios)
+#define IL0323_DC_FLAGS DT_INST_GPIO_FLAGS(0, dc_gpios)
+#define IL0323_DC_CNTRL DT_INST_GPIO_LABEL(0, dc_gpios)
+#define IL0323_CS_PIN DT_INST_SPI_DEV_CS_GPIOS_PIN(0)
+#define IL0323_CS_FLAGS DT_INST_SPI_DEV_CS_GPIOS_FLAGS(0)
+#if DT_INST_SPI_DEV_HAS_CS_GPIOS(0)
+#define IL0323_CS_CNTRL DT_INST_SPI_DEV_CS_GPIOS_LABEL(0)
+#endif
+#define IL0323_BUSY_PIN DT_INST_GPIO_PIN(0, busy_gpios)
+#define IL0323_BUSY_CNTRL DT_INST_GPIO_LABEL(0, busy_gpios)
+#define IL0323_BUSY_FLAGS DT_INST_GPIO_FLAGS(0, busy_gpios)
+/* #define IL0323_RESET_PIN DT_INST_GPIO_PIN(0, reset_gpios) */
+/* #define IL0323_RESET_CNTRL DT_INST_GPIO_LABEL(0, reset_gpios) */
+/* #define IL0323_RESET_FLAGS DT_INST_GPIO_FLAGS(0, reset_gpios) */
+
 #define EPD_PANEL_WIDTH DT_INST_PROP(0, width)
 #define EPD_PANEL_HEIGHT DT_INST_PROP(0, height)
 #define IL0323_PIXELS_PER_BYTE 8U
@@ -289,7 +306,14 @@ static int il0323_controller_init(const struct device *dev) {
     il0323_busy_wait(cfg);
 
     /* Pannel settings, KW mode */
+#if IS_ENABLED(CONFIG_NRFMACRO_EPD_ROTATE_180)
+    // rotate the screen upside down by scanning in from right -> left, down -> up
+    tmp[0] = IL0323_PSR_SHD | IL0323_PSR_RST;
+#else
+    // scanning in from left -> right, up -> down
     tmp[0] = IL0323_PSR_UD | IL0323_PSR_SHL | IL0323_PSR_SHD | IL0323_PSR_RST;
+#endif
+
 #if EPD_PANEL_WIDTH == 80
 
 #if EPD_PANEL_HEIGHT == 128
@@ -352,6 +376,19 @@ static int il0323_init(const struct device *dev) {
     }
 
     gpio_pin_configure_dt(&cfg->reset, GPIO_OUTPUT_INACTIVE);
+    driver->spi_config.frequency = IL0323_SPI_FREQ;
+    driver->spi_config.operation = SPI_OP_MODE_MASTER | SPI_WORD_SET(8);
+    driver->spi_config.slave = DT_INST_REG_ADDR(0);
+    driver->spi_config.cs = NULL;
+
+    /* driver->reset = device_get_binding(IL0323_RESET_CNTRL); */
+    /* if (driver->reset == NULL) { */
+    /*     LOG_ERR("Could not get GPIO port for IL0323 reset"); */
+    /*     return -EIO; */
+    /* } */
+
+    /* gpio_pin_configure(driver->reset, IL0323_RESET_PIN, GPIO_OUTPUT_INACTIVE |
+     * IL0323_RESET_FLAGS); */
 
     if (!device_is_ready(cfg->dc.port)) {
         LOG_ERR("Could not get GPIO port for IL0323 DC signal");

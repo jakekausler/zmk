@@ -1,7 +1,9 @@
 {
   "files.associations": {
     "*.overlay": "dts",
-    "*.keymap": "dts"
+    "*.keymap": "dts",
+    "usb_hid.h": "c",
+    "sliders.h": "c"
   },
   "python.formatting.provider": "black",
   "[c]": {
