@@ -12,7 +12,7 @@
 #include <drivers/i2c.h>
 #include <zephyr/drivers/gpio.h>
 
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 
 #include <zmk/hid.h>
 #include <zmk/endpoints.h>

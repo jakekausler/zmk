@@ -9,7 +9,7 @@
 #include <pixart/pmw3610/pmw3610.h>
 #endif
 
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 #include <zmk/hid.h>
 #include <zmk/endpoints.h>
 #include <zmk/keymap.h>

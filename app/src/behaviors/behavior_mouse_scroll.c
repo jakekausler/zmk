@@ -8,7 +8,7 @@
 
 #include <zephyr/device.h>
 #include <drivers/behavior.h>
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 
 #include <zmk/event_manager.h>
 #include <zmk/events/mouse_scroll_state_changed.h>

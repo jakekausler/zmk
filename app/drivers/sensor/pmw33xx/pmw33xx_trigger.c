@@ -16,7 +16,7 @@
 
 // extern struct pmw33xx_data pmw33xx_driver;
 
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(PMW33XX, CONFIG_SENSOR_LOG_LEVEL);
 
 static inline void setup_int(const struct device *dev, bool enable) {

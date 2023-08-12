@@ -10,7 +10,7 @@
 #include "layer_status.h"
 #include <zmk/display/status_screen.h>
 
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 LV_IMG_DECLARE(layers);

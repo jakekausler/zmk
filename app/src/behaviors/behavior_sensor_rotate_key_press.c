@@ -8,7 +8,7 @@
 
 #include <zephyr/device.h>
 #include <drivers/behavior.h>
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 
 #include <drivers/sensor.h>
 #include <zmk/event_manager.h>

@@ -10,7 +10,7 @@
 #include <drivers/i2c.h>
 #include <kernel.h>
 #include <zephyr/sys/util.h>
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 #include <zephyr/sys/byteorder.h>
 #include <drivers/sensor.h>
 

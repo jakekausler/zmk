@@ -14,7 +14,7 @@
 #include <zephyr/sys/byteorder.h>
 #include "pmw3610.h"
 
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 LOG_MODULE_REGISTER(pmw3610, CONFIG_PMW3610_LOG_LEVEL);
 
 /* Timings (in us) used in SPI communication. Since MCU should not do other tasks during wait, k_busy_wait is used instead of k_sleep */

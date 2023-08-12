@@ -14,7 +14,7 @@
 #include <kernel.h>
 #include <drivers/sensor.h>
 #include <zephyr/sys/__assert.h>
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 #ifdef CONFIG_PMW33XX_3389
 #include <pmw3389_srom.h>
 #elif CONFIG_PMW33XX_3360

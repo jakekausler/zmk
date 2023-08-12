@@ -1,7 +1,7 @@
 #define DT_DRV_COMPAT cirque_pinnacle
 
 #include <drivers/sensor.h>
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 
 #include <zmk/hid.h>
 #include <zmk/endpoints.h>

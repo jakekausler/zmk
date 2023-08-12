@@ -21,7 +21,7 @@
 #include <drivers/ext_power.h>
 
 #define LOG_LEVEL CONFIG_GPIO_LOG_LEVEL
-#include <logging/log.h>
+#include <zephyr/logging/log.h>
 
 LOG_MODULE_REGISTER(gpio_max7318);
 
