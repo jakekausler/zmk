@@ -185,6 +185,16 @@ struct sensor_event {
     struct sensor_value value;
 };
 
+static struct zmk_sensor_config configs[] = {
+#if ZMK_KEYMAP_SENSORS_CHILD_COUNT > 0
+    DT_FOREACH_CHILD_SEP(ZMK_KEYMAP_SENSORS_NODE, SENSOR_CHILD_ITEM, (, ))
+#else
+    LISTIFY(ZMK_KEYMAP_SENSORS_LEN, SENSOR_CHILD_DEFAULTS, (, ), 0)
+#endif
+};
+
+static struct sensors_item_cfg sensors[] = {LISTIFY(ZMK_KEYMAP_SENSORS_LEN, SENSOR_ITEM, (, ), 0)};
+
 static uint8_t split_central_sensor_notify_func(struct bt_conn *conn,
                                                 struct bt_gatt_subscribe_params *params,
                                                 const void *data, uint16_t length) {
@@ -198,9 +208,22 @@ static uint8_t split_central_sensor_notify_func(struct bt_conn *conn,
     }
     LOG_DBG("[SENSOR NOTIFICATION] data %p length %u", data, length);
 
+    int err;
+    const struct sensors_item_cfg *item = &sensors[sensor_event->sensor_index];
+
+    err = sensor_sample_fetch(item->dev);
+    if (err) {
+        LOG_WRN("Failed to fetch sample from device %d", err);
+        return;
+    }
+
     struct zmk_sensor_event ev = {
-        .sensor_number = sensor_event->sensor_number,
-        .value = {.val1 = (sensor_event->value).val1, .val2 = (sensor_event->value).val2},
+        .sensor_index = sensor_event->sensor_number,
+        .channel_data_size = 1,
+        .channel_data = {(struct zmk_sensor_channel_data){.value = sensor_event->value,
+                                                          .channel = item->trigger.chan}}
+                            .value = {.val1 = (sensor_event->value).val1,
+                                      .val2 = (sensor_event->value).val2},
         .timestamp = k_uptime_get()};
 
     k_msgq_put(&peripheral_sensor_event_msgq, &ev, K_NO_WAIT);
