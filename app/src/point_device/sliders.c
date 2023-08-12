@@ -4,7 +4,7 @@
 *  3. The processing of slider event is dispatched to listening processors, notably keymap
 */
 
-#include <devicetree.h>
+#include <zephyr/device.h>
 #include <init.h>
 
 #include <logging/log.h>
