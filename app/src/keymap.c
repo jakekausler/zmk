@@ -410,7 +410,7 @@ inline static int zmk_keymap_slider_triggered(uint8_t id, int16_t dx, int16_t dy
             int ret;
 
             LOG_INF("layer: %d slider_id: %d, binding name: %s", layer, id,
-                    log_strdup(binding->behavior_dev));
+                    binding->behavior_dev);
 
             behavior = device_get_binding(binding->behavior_dev);
 
@@ -447,7 +447,7 @@ inline static int zmk_keymap_trackball_triggered(uint8_t id, int16_t dx, int16_t
             int ret;
 
             LOG_INF("layer: %d slider_id: %d, binding name: %s", layer, id,
-                    log_strdup(binding->behavior_dev));
+                    binding->behavior_dev);
 
             behavior = device_get_binding(binding->behavior_dev);
 
@@ -484,7 +484,7 @@ inline static int zmk_keymap_joystick_triggered(uint8_t id, int16_t dx, int16_t 
             int ret;
 
             LOG_INF("layer: %d slider_id: %d, binding name: %s", layer, id,
-                    log_strdup(binding->behavior_dev));
+                    binding->behavior_dev);
 
             behavior = device_get_binding(binding->behavior_dev);
 
