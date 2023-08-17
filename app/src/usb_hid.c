@@ -27,6 +27,23 @@ static const struct hid_ops ops = {
     .int_in_ready = in_ready_cb,
 };
 
+struct hid_device_info {
+	const uint8_t *report_desc;
+	size_t report_size;
+	const struct hid_ops *ops;
+#ifdef CONFIG_USB_DEVICE_SOF
+	uint32_t sof_cnt[CONFIG_USB_HID_REPORTS];
+	bool idle_on;
+	uint8_t idle_rate[CONFIG_USB_HID_REPORTS];
+#endif
+#ifdef CONFIG_USB_HID_BOOT_PROTOCOL
+	uint8_t protocol;
+#endif
+	bool configured;
+	bool suspended;
+	struct usb_dev_data common;
+};
+
 int zmk_usb_hid_send_report(const uint8_t *report, size_t len) {
     struct hid_device_info *hid_dev_data = hid_dev->data;
     LOG_DBG("device %s configured: %s. ", hid_dev->name, hid_dev_data->configured ? "true": "false");
