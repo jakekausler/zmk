@@ -764,10 +764,10 @@ static int pmw3360_init(const struct device *dev) {
     }
 
     // init irq routine
-    err = pmw3360_init_irq(dev);
-    if (err) {
-        return err;
-    }
+    //err = pmw3360_init_irq(dev);
+    //if (err) {
+    //    return err;
+    //}
 
     // Setup delayable and non-blocking init jobs, including following steps:
     // 1. power reset
