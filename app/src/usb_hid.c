@@ -28,7 +28,8 @@ static const struct hid_ops ops = {
 };
 
 int zmk_usb_hid_send_report(const uint8_t *report, size_t len) {
-    LOG_DBG("device %s configured: %s. ", hid_dev->name, hid_dev->data->configured ? "true": "false");
+    struct hid_device_info *hid_dev_data = dev->data;
+    LOG_DBG("device %s configured: %s. ", hid_dev->name, hid_dev_data->configured ? "true": "false");
     LOG_DBG("USB Status: %d", zmk_usb_get_status())
     switch (zmk_usb_get_status()) {
     case USB_DC_SUSPEND:
