@@ -31,13 +31,22 @@ int zmk_usb_hid_send_report(const uint8_t *report, size_t len) {
     LOG_DBG("USB Status: %d", zmk_usb_get_status());
     switch (zmk_usb_get_status()) {
     case USB_DC_SUSPEND:
+        LOG_DBG("SUSPEND");
         return usb_wakeup_request();
     case USB_DC_ERROR:
+        LOG_DBG("ERROR");
+        return -ENODEV;
     case USB_DC_RESET:
+        LOG_DBG("RESET");
+        return -ENODEV;
     case USB_DC_DISCONNECTED:
+        LOG_DBG("DISCONNECTED");
+        return -ENODEV;
     case USB_DC_UNKNOWN:
+        LOG_DBG("UNKNOWN");
         return -ENODEV;
     default:
+        LOG_DBG("OTHER");
         k_sem_take(&hid_sem, K_MSEC(30));
         int err = hid_int_ep_write(hid_dev, report, len, NULL);
 
