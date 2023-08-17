@@ -966,7 +966,7 @@ static const struct sensor_driver_api pmw3360_driver_api = {
     static struct pixart_data data##n;                                                             \
                                                                                                    \
     static const struct pixart_config config##n = {                                                \
-        //.irq_gpio = GPIO_DT_SPEC_INST_GET(n, irq_gpios),                                           \
+        /*.irq_gpio = GPIO_DT_SPEC_INST_GET(n, irq_gpios),                                           \*/
         .bus =                                                                                     \
             {                                                                                      \
                 .bus = DEVICE_DT_GET(DT_INST_BUS(n)),                                              \
