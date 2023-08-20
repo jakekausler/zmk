@@ -26,11 +26,13 @@ typedef struct {
 K_MSGQ_DEFINE(zmk_pd_msgq, sizeof(zmk_pd_msg), CONFIG_ZMK_KSCAN_EVENT_QUEUE_SIZE, 4);
 
 static void pd_process_msgq(struct k_work *work) {
+#if IS_ENABLED(CONFIG_ZMK_MOUSE)
     zmk_pd_msg msg;
 
     while (k_msgq_get(&zmk_pd_msgq, &msg, K_NO_WAIT) == 0) {
       if (msg.scroll) {
         LOG_INF("Send pd scroll data (%d, %d)", msg.x, msg.y);
+        
         zmk_hid_mouse_scroll_set(0, 0);
         zmk_hid_mouse_movement_set(0, 0);
         zmk_hid_mouse_scroll_update(msg.x, msg.y);
@@ -44,11 +46,13 @@ static void pd_process_msgq(struct k_work *work) {
 
       zmk_endpoints_send_mouse_report();
     }
+#endif /* IS_ENABLED(CONFIG_ZMK_MOUSE) */
 }
 
 K_WORK_DEFINE(pd_msg_processor, pd_process_msgq);
 
 int pd_listener(const zmk_event_t *eh) {
+#if IS_ENABLED(CONFIG_ZMK_MOUSE)
     const struct zmk_pd_position_state_changed *mv_ev = as_zmk_pd_position_state_changed(eh);
     if (mv_ev) {
       zmk_pd_msg msg = {.x = mv_ev->x, .y = mv_ev->y, .scroll = false};
@@ -64,6 +68,7 @@ int pd_listener(const zmk_event_t *eh) {
       k_work_submit_to_queue(zmk_mouse_work_q(), &pd_msg_processor);
       return 0;
     }
+#endif /* IS_ENABLED(CONFIG_ZMK_MOUSE) */
     return 0;
 }
 

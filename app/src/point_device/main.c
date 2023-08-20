@@ -7,6 +7,9 @@
 #include <zephyr/kernel.h>
 #include <zmk/point_device.h>
 
+#include <zephyr/logging/log.h>
+LOG_MODULE_REGISTER(point_device, CONFIG_PMW3360_LOG_LEVEL);
+
 #if IS_ENABLED(CONFIG_ZMK_PD_WORK_QUEUE_DEDICATED)
 static const struct k_work_queue_config pd_work_q_config = {.name = "Processor for events from all point devices",
                                                             .no_yield = false    };
@@ -29,6 +32,7 @@ int zmk_pd_init() {
                      K_THREAD_STACK_SIZEOF(pd_work_stack_area),
                      CONFIG_ZMK_PD_DEDICATED_WORK_QUEUE_PRIORITY,
                      &pd_work_q_config);
+    LOG_INF("PD Initialized");
 #endif
     return 0;
 }

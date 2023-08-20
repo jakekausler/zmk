@@ -575,10 +575,11 @@ static int pmw3360_async_init_fw_load_verify(const struct device *dev) {
         return err;
     }
 
-    LOG_DBG("Optical chip firmware ID: 0x%x", fw_id);
+    LOG_INF("Optical chip firmware ID: 0x%x", fw_id);
     if (fw_id != PMW3360_FIRMWARE_ID) {
-        LOG_ERR("Chip is not running from SROM!");
-        return -EIO;
+        
+        // LOG_ERR("Chip is not running from SROM!");
+        // return -EIO;
     }
 
     uint8_t product_id;
@@ -589,8 +590,8 @@ static int pmw3360_async_init_fw_load_verify(const struct device *dev) {
     }
 
     if (product_id != PMW3360_PRODUCT_ID) {
-        LOG_ERR("Invalid product id!");
-        return -EIO;
+        // LOG_ERR("Invalid product id!");
+        // return -EIO;
     }
 
     /* Write 0x20 to Config2 register for wireless mouse design.
@@ -688,7 +689,7 @@ static void pmw3360_async_init(struct k_work *work) {
     struct pixart_data *data = CONTAINER_OF(work, struct pixart_data, init_work);
     const struct device *dev = data->dev;
 
-    LOG_DBG("PMW3360 async init step %d", data->async_init_step);
+    LOG_INF("PMW3360 async init step %d", data->async_init_step);
 
     data->err = async_init_fn[data->async_init_step](dev);
     if (data->err) {
@@ -709,6 +710,8 @@ static int pmw3360_init_irq(const struct device *dev) {
     int err;
     struct pixart_data *data = dev->data;
     const struct pixart_config *config = dev->config;
+
+    LOG_INF("IRQ Port: %s", config->irq_gpio.port->name);
 
     // check readiness of irq gpio pin
     if (!device_is_ready(config->irq_gpio.port)) {
@@ -735,9 +738,13 @@ static int pmw3360_init_irq(const struct device *dev) {
 }
 
 static int pmw3360_init(const struct device *dev) {
+    LOG_WRN("Initializing pmw3360...");
     struct pixart_data *data = dev->data;
     const struct pixart_config *config = dev->config;
     int err;
+
+    #define ZMK_KEYMAP_TRACKBALLS_NODE DT_INST(0, zmk_keymap_trackballs)
+    #define ZMK_KEYMAP_HAS_TRACKBALLS DT_NODE_HAS_STATUS(ZMK_KEYMAP_TRACKBALLS_NODE, okay)
 
     // init device pointer
     data->dev = dev;
@@ -764,10 +771,10 @@ static int pmw3360_init(const struct device *dev) {
     }
 
     // init irq routine
-    //err = pmw3360_init_irq(dev);
-    //if (err) {
-    //    return err;
-    //}
+    err = pmw3360_init_irq(dev);
+    if (err) {
+       return err;
+    }
 
     // Setup delayable and non-blocking init jobs, including following steps:
     // 1. power reset
@@ -966,7 +973,7 @@ static const struct sensor_driver_api pmw3360_driver_api = {
     static struct pixart_data data##n;                                                             \
                                                                                                    \
     static const struct pixart_config config##n = {                                                \
-        /*.irq_gpio = GPIO_DT_SPEC_INST_GET(n, irq_gpios),                                           \*/ \
+        .irq_gpio = GPIO_DT_SPEC_INST_GET(n, irq_gpios),                                           \
         .bus =                                                                                     \
             {                                                                                      \
                 .bus = DEVICE_DT_GET(DT_INST_BUS(n)),                                              \

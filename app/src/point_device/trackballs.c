@@ -125,7 +125,7 @@ static void zmk_trackballs_poll_handler(struct k_work *work) {
 // trigger handler
 static void zmk_trackballs_trigger_handler(const struct device *dev,
                                            const struct sensor_trigger *trig) {
-    LOG_INF("New interrupt received");
+    // LOG_DBG("New interrupt received");
 
     struct trackballs_data_item *item = CONTAINER_OF(trig, struct trackballs_data_item, trigger);
 
@@ -135,7 +135,7 @@ static void zmk_trackballs_trigger_handler(const struct device *dev,
     };
 
     // start the polling timer (the real work now is dispatched to a timer-based polling)
-    LOG_INF("Polling start ...");
+    // LOG_DBG("Polling start ...");
     k_timer_start(&item->poll_timer, K_NO_WAIT, K_MSEC(polling_interval));
 }
 
@@ -146,14 +146,14 @@ void zmk_trackballs_timer_expiry(struct k_timer *timer) {
 
     // check whether reaching the polling count limit
     if (item->polling_count < max_poll_count) {
-        LOG_INF("Poll %d", item->polling_count);
+        // LOG_DBG("Poll %d", item->polling_count);
         // submit polling work to mouse work queue
         k_work_submit_to_queue(zmk_pd_work_q(), &item->poll_work);
 
         // update status
         item->polling_count++;
     } else {
-        LOG_INF("Polling end.");
+        // LOG_DBG("Polling end.");
         // stop timer
         k_timer_stop(&item->poll_timer);
     }
@@ -209,6 +209,9 @@ static void zmk_trackballs_init_item(const char *node, uint8_t i, uint8_t abs_i)
     trackballs[i].dev = device_get_binding(node);
     trackballs[i].id = abs_i;
 
+    // LOG_INF("Trackball sensor trigger type: %d", &trackballs[i].trigger.type);
+    // LOG_INF("Trackball sensor trigger channel: %d", &trackballs[i].trigger.chan);
+
     if (!trackballs[i].dev) {
         LOG_WRN("Failed to find device for %s", node);
         return;
@@ -258,5 +261,9 @@ SYS_INIT(zmk_trackballs_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
 
 ZMK_LISTENER(zmk_trackballs, zmk_trackballs_endpoint_listener)
 ZMK_SUBSCRIPTION(zmk_trackballs, zmk_endpoint_selection_changed)
+
+#else
+
+LOG_INF("Trackballs not found...");
 
 #endif
