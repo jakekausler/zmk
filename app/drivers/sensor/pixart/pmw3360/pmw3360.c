@@ -606,6 +606,7 @@ static int pmw3360_async_init_fw_load_verify(const struct device *dev) {
 }
 
 static void irq_handler(const struct device *gpiob, struct gpio_callback *cb, uint32_t pins) {
+    // LOG_INF("***** pmw3360 - irq_handler *****");
     int err;
     struct pixart_data *data = CONTAINER_OF(cb, struct pixart_data, irq_gpio_cb);
     const struct device *dev = data->dev;
@@ -623,6 +624,7 @@ static void irq_handler(const struct device *gpiob, struct gpio_callback *cb, ui
 }
 
 static void trigger_handler(struct k_work *work) {
+    // LOG_INF("***** pmw3360 - trigger_handler *****");*
     sensor_trigger_handler_t handler;
     int err = 0;
     struct pixart_data *data = CONTAINER_OF(work, struct pixart_data, trigger_handler_work);
@@ -895,6 +897,8 @@ static int pmw3360_trigger_set(const struct device *dev, const struct sensor_tri
 
     if (!err) {
         data->data_ready_handler = handler;
+    } else {
+        LOG_ERR("Error setting gpio interrupt: %d", err);
     }
 
     data->trigger = trig;

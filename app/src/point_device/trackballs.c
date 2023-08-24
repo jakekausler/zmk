@@ -93,8 +93,14 @@ static bool valid_mouse_layer() {
 
 // polling work
 static void zmk_trackballs_poll_handler(struct k_work *work) {
+    // LOG_INF("***** zmk_trackballs_poll_handler *****");
     struct trackballs_data_item *item = CONTAINER_OF(work, struct trackballs_data_item, poll_work);
     const struct device *dev = item->dev;
+
+    if (valid_mouse_layer() && !atomic_test_and_set_bit(timer_set_bit, 1)) {
+        zmk_keymap_layer_activate(CONFIG_MOUSE_LAYER_INDEX, true);
+        k_timer_start(&mouse_layer_timer, K_MSEC(CONFIG_MOUSE_LAYER_ACTIVE_MS), K_NO_WAIT);
+    }
 
     // fetch dx and dy from sensor and save them into pixart_data structure
     int ret = sensor_sample_fetch(dev);
@@ -120,11 +126,6 @@ static void zmk_trackballs_poll_handler(struct k_work *work) {
         .id = item->id, .dx = item->dx.val1, .dy = item->dy.val1, .dt = polling_interval};
 
     if (msg.dx != 0 || msg.dy != 0) {
-        if (valid_mouse_layer() && !atomic_test_and_set_bit(timer_set_bit, 1)) {
-            zmk_keymap_layer_activate(CONFIG_MOUSE_LAYER_INDEX, true);
-            k_timer_start(&mouse_layer_timer, K_MSEC(CONFIG_MOUSE_LAYER_ACTIVE_MS), K_NO_WAIT);
-        }
-
         LOG_INF("New position received: dx = %d, dy = %d", msg.dx, msg.dy);
         k_msgq_put(&zmk_trackballs_msgq, &msg, K_NO_WAIT);
         k_work_submit_to_queue(zmk_pd_work_q(), &zmk_trackballs_msgq_work);
@@ -134,7 +135,8 @@ static void zmk_trackballs_poll_handler(struct k_work *work) {
 // trigger handler
 static void zmk_trackballs_trigger_handler(const struct device *dev,
                                            const struct sensor_trigger *trig) {
-    // LOG_DBG("New interrupt received");
+    // LOG_INF("***** zmk_trackballs_trigger_handler *****");
+    // LOG_INF("New interrupt received");
 
     struct trackballs_data_item *item = CONTAINER_OF(trig, struct trackballs_data_item, trigger);
 
@@ -150,6 +152,7 @@ static void zmk_trackballs_trigger_handler(const struct device *dev,
 
 // timer expiry function
 void zmk_trackballs_timer_expiry(struct k_timer *timer) {
+    // LOG_INF("***** zmk_trackballs_timer_expiry *****");
     struct trackballs_data_item *item =
         CONTAINER_OF(timer, struct trackballs_data_item, poll_timer);
 
@@ -170,6 +173,7 @@ void zmk_trackballs_timer_expiry(struct k_timer *timer) {
 
 // timer stop function
 void zmk_trackballs_timer_stop(struct k_timer *timer) {
+    // LOG_INF("***** zmk_trackballs_timer_stop *****");
     struct trackballs_data_item *item =
         CONTAINER_OF(timer, struct trackballs_data_item, poll_timer);
 
@@ -227,7 +231,9 @@ static void zmk_trackballs_init_item(const char *node, uint8_t i, uint8_t abs_i)
     }
 
     // setup the timer and handler function of the polling work
+    // LOG_INF("***** k_timer_init *****");
     k_timer_init(&trackballs[i].poll_timer, zmk_trackballs_timer_expiry, zmk_trackballs_timer_stop);
+    // LOG_INF("***** k_work_init *****");
     k_work_init(&trackballs[i].poll_work, zmk_trackballs_poll_handler);
 
     // init trigger handler
@@ -248,6 +254,7 @@ static void zmk_trackballs_init_item(const char *node, uint8_t i, uint8_t abs_i)
     }
 
     // init the polling parameters
+    // LOG_INF("***** zmk_trackballs_endpoint_listener *****");
     zmk_trackballs_endpoint_listener(NULL);
 }
 

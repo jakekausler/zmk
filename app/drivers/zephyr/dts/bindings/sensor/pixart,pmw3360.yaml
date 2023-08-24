@@ -12,7 +12,7 @@ properties:
     type: string
   irq-gpios:
     type: phandle-array
-    required: false
+    required: true
   scroll-layer:
     type: int
     description: the momentary layer used to modifiy move to scroll
