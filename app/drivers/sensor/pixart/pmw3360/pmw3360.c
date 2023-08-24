@@ -639,6 +639,7 @@ static void trigger_handler(struct k_work *work) {
     k_spin_unlock(&data->lock, key);
 
     if (!handler) {
+        // LOG_INF("No data_ready_handler, doing nothing");
         return;
     }
 
@@ -649,6 +650,9 @@ static void trigger_handler(struct k_work *work) {
     key = k_spin_lock(&data->lock);
     if (data->data_ready_handler) {
         err = gpio_pin_interrupt_configure_dt(&config->irq_gpio, GPIO_INT_LEVEL_ACTIVE);
+        // LOG_INF("Setting Int level to active");
+    } else {
+        // LOG_INF("Leaving Int level inactive");
     }
     k_spin_unlock(&data->lock, key);
 
@@ -729,6 +733,7 @@ static int pmw3360_init_irq(const struct device *dev) {
     }
 
     // setup and add the irq callback associated
+    // LOG_INF("irq pin: %d, port: %s", config->irq_gpio.pin, config->irq_gpio.port->name);
     gpio_init_callback(&data->irq_gpio_cb, irq_handler, BIT(config->irq_gpio.pin));
 
     err = gpio_add_callback(config->irq_gpio.port, &data->irq_gpio_cb);
