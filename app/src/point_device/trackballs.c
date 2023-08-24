@@ -82,15 +82,19 @@ void deactivate_mouse_layer(struct k_timer *timer) {
 
 K_TIMER_DEFINE(mouse_layer_timer, deactivate_mouse_layer, NULL);
 
+static bool valid_mouse_layer() {
+    for (int i=CONFIG_IGNORE_MOUSE_LAYER_START_INDEX; i<=CONFIG_IGNORE_MOUSE_LAYER_END_INDEX; i++) {
+        if (zmk_keymap_layer_active(i)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 // polling work
 static void zmk_trackballs_poll_handler(struct k_work *work) {
     struct trackballs_data_item *item = CONTAINER_OF(work, struct trackballs_data_item, poll_work);
     const struct device *dev = item->dev;
-
-    if (!atomic_test_and_set_bit(timer_set_bit, 1)) {
-        zmk_keymap_layer_activate(CONFIG_MOUSE_LAYER_INDEX, true);
-        k_timer_start(&mouse_layer_timer, K_MSEC(CONFIG_MOUSE_LAYER_ACTIVE_MS), K_NO_WAIT);
-    }
 
     // fetch dx and dy from sensor and save them into pixart_data structure
     int ret = sensor_sample_fetch(dev);
@@ -116,6 +120,11 @@ static void zmk_trackballs_poll_handler(struct k_work *work) {
         .id = item->id, .dx = item->dx.val1, .dy = item->dy.val1, .dt = polling_interval};
 
     if (msg.dx != 0 || msg.dy != 0) {
+        if (valid_mouse_layer() && !atomic_test_and_set_bit(timer_set_bit, 1)) {
+            zmk_keymap_layer_activate(CONFIG_MOUSE_LAYER_INDEX, true);
+            k_timer_start(&mouse_layer_timer, K_MSEC(CONFIG_MOUSE_LAYER_ACTIVE_MS), K_NO_WAIT);
+        }
+
         LOG_INF("New position received: dx = %d, dy = %d", msg.dx, msg.dy);
         k_msgq_put(&zmk_trackballs_msgq, &msg, K_NO_WAIT);
         k_work_submit_to_queue(zmk_pd_work_q(), &zmk_trackballs_msgq_work);
